@@ -35,4 +35,29 @@ class Graph:
         We highly encourage the use of priority queues in your implementation. See the heapq
         module, particularly the `heapify`, `heappop`, and `heappush` functions.
         """
-        self.mst = 'TODO'
+
+        self.mst = np.zeros(self.adj_mat.shape)
+        num_nodes = self.adj_mat.shape[0]
+        edges_with_weights = [[(self.adj_mat[x,y], (y,x)) for x in range(num_nodes) if self.adj_mat[x,y] != 0]
+                              for y in range(num_nodes)]
+
+        visited = {0} # each node will be an index of the matrix
+        outgoing = list(edges_with_weights[0]) # outgoing edges of 0th node
+        heapq.heapify(outgoing) # in place pq
+
+        while len(visited) < num_nodes:
+
+            lowest_edge_weight = heapq.heappop(outgoing)
+            destination_node = lowest_edge_weight[1][1]
+
+            if destination_node not in visited:
+                self.mst[lowest_edge_weight[1][0], destination_node] = lowest_edge_weight[0]
+                self.mst[destination_node, lowest_edge_weight[1][0]] = lowest_edge_weight[0]
+                visited.add(destination_node)
+                for node in edges_with_weights[destination_node]:
+                    heapq.heappush(outgoing, node)
+
+
+
+
+
