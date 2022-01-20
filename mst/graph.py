@@ -38,6 +38,10 @@ class Graph:
 
         self.mst = np.zeros(self.adj_mat.shape)
         num_nodes = self.adj_mat.shape[0]
+
+        # this representation allows us to keep track of a node's weight in addition to the vertices it connects --
+        # useful for implementation
+        # note that I'm only storing the nonzero edges here so I dn't need to deal with it laterz
         edges_with_weights = [[(self.adj_mat[x,y], (y,x)) for x in range(num_nodes) if self.adj_mat[x,y] != 0]
                               for y in range(num_nodes)]
 
@@ -47,7 +51,7 @@ class Graph:
 
         while len(visited) < num_nodes:
 
-            lowest_edge_weight = heapq.heappop(outgoing)
+            lowest_edge_weight = heapq.heappop(outgoing) # this is of the form (weight, (origin, destination))
             destination_node = lowest_edge_weight[1][1]
 
             if destination_node not in visited:
