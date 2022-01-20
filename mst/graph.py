@@ -36,28 +36,29 @@ class Graph:
         module, particularly the `heapify`, `heappop`, and `heappush` functions.
         """
 
-        self.mst = np.zeros(self.adj_mat.shape)
+        self.mst = np.zeros(self.adj_mat.shape) # initialize to zero matrix
         num_nodes = self.adj_mat.shape[0]
 
         # this representation allows us to keep track of a node's weight in addition to the vertices it connects --
-        # useful for implementation
-        # note that I'm only storing the nonzero edges here so I dn't need to deal with it laterz
-        edges_with_weights = [[(self.adj_mat[x,y], (y,x)) for x in range(num_nodes) if self.adj_mat[x,y] != 0]
-                              for y in range(num_nodes)]
+        # useful for implementation, note that I'm only storing the nonzero edges here
+        edges_with_weights = [[(self.adj_mat[x,y], (x,y)) for y in range(num_nodes) if self.adj_mat[x,y] != 0]
+                              for x in range(num_nodes)]
 
-        visited = {0} # each node will be an index of the matrix
-        outgoing = list(edges_with_weights[0]) # outgoing edges of 0th node
+        visited = {0} # represent each node as an index of the matrix
+        # outgoing nonzero edges of 0th node stored in the form
+        # [(weight1 != 0, (0, dest1)), (weight2 != 0, (0, dest2)), ...]
+        outgoing = edges_with_weights[0]
         heapq.heapify(outgoing) # in place pq
 
         while len(visited) < num_nodes:
-
             lowest_edge_weight = heapq.heappop(outgoing) # this is of the form (weight, (origin, destination))
             destination_node = lowest_edge_weight[1][1]
 
             if destination_node not in visited:
-                self.mst[lowest_edge_weight[1][0], destination_node] = lowest_edge_weight[0]
-                self.mst[destination_node, lowest_edge_weight[1][0]] = lowest_edge_weight[0]
+                self.mst[lowest_edge_weight[1][0], destination_node] = lowest_edge_weight[0] # pull this weight from self.adj_mat
+                self.mst[destination_node, lowest_edge_weight[1][0]] = lowest_edge_weight[0] # symmetrical matrix
                 visited.add(destination_node)
+
                 for node in edges_with_weights[destination_node]:
                     heapq.heappush(outgoing, node)
 
