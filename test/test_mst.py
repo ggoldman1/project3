@@ -33,6 +33,10 @@ def check_mst(adj_mat: np.ndarray,
             total += mst[i, j]
     assert approx_equal(total, expected_weight), 'Proposed MST has incorrect expected weight'
 
+    assert np.allclose(mst, mst.T), "Proposed MST is not symmetric"
+
+    assert np.sum(adj_mat) >= np.sum(mst), "Proposed MST has more weight than original graph"
+
 
 def test_mst_small():
     """ Unit test for the construction of a minimum spanning tree on a small graph """
