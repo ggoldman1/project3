@@ -33,9 +33,13 @@ def check_mst(adj_mat: np.ndarray,
             total += mst[i, j]
     assert approx_equal(total, expected_weight), 'Proposed MST has incorrect expected weight'
 
+    ## additional checks ##
     assert np.allclose(mst, mst.T), "Proposed MST is not symmetric"
 
     assert np.sum(adj_mat) >= np.sum(mst), "Proposed MST has more weight than original graph"
+
+    if np.min(np.sum(adj_mat, axis=1)) > 0:
+        assert np.min(np.sum(mst, axis=1)), "Proposed MST is not fully connected but original graph is fully connected"
 
 
 def test_mst_small():
@@ -86,5 +90,14 @@ def test_mst_student():
                [4, 3, 2, 3, 2],
                [4, 1, 1, 2, 1]]
     g = Graph(np.array(adj_mat))
+    g.construct_mst()
+    check_mst(g.adj_mat, g.mst, 5)
+
+    adj_mat = [[1, 1, 3, 4, 4, 0],
+               [1, 0, 2, 3, 1, 0],
+               [3, 2, 2, 2, 1, 0],
+               [4, 3, 2, 3, 2, 0],
+               [4, 1, 1, 2, 1, 0],
+               [0, 0, 0, 0, 0, 0]]
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 5)
