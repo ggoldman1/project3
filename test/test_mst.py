@@ -63,6 +63,7 @@ def test_mst_single_cell_data():
 
 def test_mst_student():
     """ TODO: Write at least one unit test for MST construction """
+    # large adj mat
     adj_mat = [[0, 40, 14, 52, 38, 79, 53, 66, 72, 55],
                [40,  0, 44, 25, 81, 34, 54, 59, 56, 65],
                [14, 44, 0, 64, 79, 50, 73, 71, 55, 44],
@@ -78,6 +79,7 @@ def test_mst_student():
     g.construct_mst()
     check_mst(g.adj_mat, g.mst, 199)
 
+    # small adj mat
     adj_mat = [[1, 1, 3, 4, 4],
                [1, 0, 2, 3, 1],
                [3, 2, 2, 2, 1],

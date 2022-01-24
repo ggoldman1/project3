@@ -1,3 +1,6 @@
+![BuildStatus](https://github.com/ggoldman1/Project3/actions/workflows/tests.yml/badge.svg)
+
+
 # Project 3
 Minimum Spanning Trees
 

@@ -46,8 +46,8 @@ class Graph:
 
         visited = {0} # represent each node as an index of the matrix
         # outgoing nonzero edges of 0th node stored in the form
-        # [(weight1 != 0, (0, dest1)), (weight2 != 0, (0, dest2)), ...]
-        outgoing = edges_with_weights[0]
+        # [(weight1 != 0, (origin1, dest1)), (weight2 != 0, (origin1, dest2)), ...], [...], ...]
+        outgoing = edges_with_weights[0] # neighbors of 0th node
         heapq.heapify(outgoing) # in place pq
 
         while len(visited) < num_nodes:
